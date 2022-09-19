@@ -2,6 +2,7 @@ from typing import List, Tuple
 
 from errors import MatchingPairsNotFound, InvalidInputError, InvalidInputValuesError
 
+
 def process_input(input: str) -> Tuple:
     INPUT_LEN = 2
     input_split = input.split(" ")
@@ -11,25 +12,34 @@ def process_input(input: str) -> Tuple:
     numbers = numbers.split(",")
     return numbers, target_sum
 
+
+def print_output(output_values: set):
+    for pair in output_values:
+        print(f"+ {pair[0]}, {pair[1]}")
+
+
 def find_pairs(numbers: List[str], target_sum: str):
     hash_table = dict()
-    found = False
+    matching_pairs = set()
     try:
         n = int(target_sum)
         for i in range(len(numbers)):
             num = numbers[i]
             key = str(n - int(num))
             if key in hash_table:
-                found = True
-                print(f"+ {num}, {key}")
+                matching_pairs.add((num, key))
             else:
                 hash_table[num] = i
-        if found is False:
+        if not matching_pairs:
             raise MatchingPairsNotFound
     except ValueError:
         raise InvalidInputValuesError
+    else:
+        return matching_pairs
+
 
 if __name__ == "__main__":
     input = input("Enter a comma separated list and a target sum value\n")
     numbers, target_sum = process_input(input=input)
-    find_pairs(numbers, target_sum)
+    result = find_pairs(numbers, target_sum)
+    print_output(result)
