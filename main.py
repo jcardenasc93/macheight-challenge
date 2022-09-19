@@ -1,3 +1,4 @@
+import sys
 from typing import List, Tuple
 
 from errors import MatchingPairsNotFound, InvalidInputError, InvalidInputValuesError
@@ -39,7 +40,8 @@ def find_pairs(numbers: List[str], target_sum: str):
 
 
 if __name__ == "__main__":
-    input = input("Enter a comma separated list and a target sum value\n")
+    args = sys.argv.pop(0)
+    input = " ".join(sys.argv)
     numbers, target_sum = process_input(input=input)
     result = find_pairs(numbers, target_sum)
     print_output(result)
